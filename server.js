@@ -3,7 +3,14 @@ var express = require('express')
   , path = require('path')
   , reload = require('reload')
   , colors = require('colors')
-  , ClickoutModule = require('./server/modules/clickout_module')
+  , CommonModule = require('./common/common-module')
+  , ClickoutModule = require('./server/modules/clickout-module')
+
+var commonUtils = new CommonModule.CommonUtils(); 
+var environment = commonUtils.getEnvironment(process.argv)
+  , config = require('./config/' + environment + '.properties.json')
+
+console.log("using environment=" + environment);
 
 var app = express()
 
@@ -31,13 +38,7 @@ app.get('/api/clickout/:id', read)
 
 var server = http.createServer(app)
 
-// function ClickoutRepository()  {};
-
-// ClickoutRepository.prototype.get = function(id) {
-//   console.log("ClickoutRepository.prototype.get " + id);
-// }
-
-var clickoutRepository =  new ClickoutModule.ClickoutRepository();
+var clickoutRepository =  new ClickoutModule.ClickoutRepository(config);
 
 reload(server, app)
 
