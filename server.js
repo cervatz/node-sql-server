@@ -29,12 +29,8 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 })
 
-// this is useless
-app.get('/', function(req, res) {
-  res.sendfile(path.join(clientDir, 'index.html'))
-})
-
 app.get('/api/clickout/:id', read)
+app.get('/api/test', test)
 
 var server = http.createServer(app)
 
@@ -42,13 +38,20 @@ var clickoutRepository =  new ClickoutModule.ClickoutRepository(config);
 
 reload(server, app)
 
+var results = [];
+
 function read (request, response) {
-  console.log("enrico");
   var id = request.params.id;
 
-  clickoutRepository.get(id);
+  var sendResponseBack = function(results) {
+    response.json(results)
+  }
 
-  response.json({key: "value"});
+  clickoutRepository.get(id, results, sendResponseBack);  
+}
+
+function test(request, response) {
+ response.json(results); 
 }
 
 server.listen(app.get('port'), function(){

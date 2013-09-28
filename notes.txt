@@ -1,0 +1,10 @@
+http://localhost:3000/api/clickout/10
+
+
+node server.js
+
+npm install
+
+how to have the code reloaded when I modified js?
+
+
