@@ -3,14 +3,12 @@ var mysql = require('mysql')
 
 module.exports.ClickoutRepository = ClickoutRepository
 
-function ClickoutRepository(config, response) {
+function ClickoutRepository(config) {
 	this.connection = mysql.createConnection({
 	  	host     : config.vcgConnection.host,
 	  	user     : config.vcgConnection.username,
 	  	password : config.vcgConnection.password
 	});
-	this.connection.connect()
-	this.response = response
 };
 
 // ClickoutRepository.prototype.get = function(id, callback) {
@@ -22,6 +20,10 @@ function ClickoutRepository(config, response) {
 // 	});
 // 	this.connection.end()
 // }
+
+ClickoutRepository.prototype.openConnection = function() {
+	this.connection.connect
+}
 
 ClickoutRepository.prototype.getAll = function(callback) {
 	console.log("ClickoutRepository.prototype.getAll")
@@ -43,8 +45,7 @@ ClickoutRepository.prototype.getAll = function(callback) {
 	// 
 }
 
-ClickoutRepository.prototype.sendBack = function(results) {
+ClickoutRepository.prototype.closeConnection = function() {
 	this.connection.end()
-	this.response.json(results);
 }
 

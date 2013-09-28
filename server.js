@@ -40,7 +40,7 @@ var clickoutRepository;
 reload(server, app)
 
 var initRepository = function(config, response) {
-  clickoutRepository =  new ClickoutModule.ClickoutRepository(config, response);  
+  clickoutRepository =  new ClickoutModule.ClickoutRepository(config);
 }
 
 // function getClickout (request, response) {
