@@ -29,29 +29,41 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 })
 
-app.get('/api/clickout/:id', read)
-app.get('/api/test', test)
+// app.get('/api/clickout/:id', getClickout)
+app.get('/api/clickout/', getAllClickouts)
+
 
 var server = http.createServer(app)
 
-var clickoutRepository =  new ClickoutModule.ClickoutRepository(config);
+var clickoutRepository;
 
 reload(server, app)
 
-var results = [];
+var initRepository = function(config, response) {
+  clickoutRepository =  new ClickoutModule.ClickoutRepository(config, response);  
+}
 
-function read (request, response) {
-  var id = request.params.id;
+// function getClickout (request, response) {
+//   initRepository(response);
+//   var id = request.params.id;
 
-  var sendResponseBack = function(results) {
+//   var sendResponse = function(results, connection) {
+//     connection.end()
+//     response.json(results)    
+//   }
+
+//   clickoutRepository.getAll(id, sendResponse);
+// }
+
+function getAllClickouts (request, response) {
+  initRepository(config, response);
+
+  var sendResponse = function(results) {
+    clickoutRepository.connection.end()
     response.json(results)
   }
 
-  clickoutRepository.get(id, results, sendResponseBack);  
-}
-
-function test(request, response) {
- response.json(results); 
+  clickoutRepository.getAll(sendResponse);
 }
 
 server.listen(app.get('port'), function(){
