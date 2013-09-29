@@ -28,6 +28,8 @@ ClickoutRepository.prototype.openConnection = function() {
 ClickoutRepository.prototype.getAll = function(callback) {
 	console.log("ClickoutRepository.prototype.getAll")
 
+	this.openConnection()
+
 	this.connection.query('SELECT * FROM vcg_nlNL.clickout', function(err, rows, fields) {
 	 	if (err) throw err
 

@@ -55,15 +55,20 @@ var initRepository = function(config, response) {
 //   clickoutRepository.getAll(id, sendResponse);
 // }
 
+function buildCallBack(repository, response) {
+  var callBack = function(results) {
+    repository.closeConnection()
+    response.json(results)
+  }
+  return callBack;
+}
+
 function getAllClickouts (request, response) {
   initRepository(config, response);
 
-  var sendResponse = function(results) {
-    clickoutRepository.connection.end()
-    response.json(results)
-  }
+  var callBack = buildCallBack(clickoutRepository, response);
 
-  clickoutRepository.getAll(sendResponse);
+  clickoutRepository.getAll(callBack);
 }
 
 server.listen(app.get('port'), function(){
