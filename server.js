@@ -4,7 +4,7 @@ var express = require('express')
   , reload = require('reload')
   , colors = require('colors')
   , CommonModule = require('./common/common-module')
-  , ClickoutModule = require('./server/modules/clickout-module')
+  , ClickoutRepositoryModule = require('./server/repositories/clickout-repository-module')
 
 var commonUtils = new CommonModule.CommonUtils(); 
 var environment = commonUtils.getEnvironment(process.argv)
@@ -40,7 +40,7 @@ var clickoutRepository;
 reload(server, app)
 
 var initRepository = function(config, response) {
-  clickoutRepository =  new ClickoutModule.ClickoutRepository(config);
+  clickoutRepository =  new ClickoutRepositoryModule.ClickoutRepository(config);
 }
 
 // function getClickout (request, response) {
