@@ -11,15 +11,16 @@ function ClickoutRepository(config) {
 	});
 };
 
-// ClickoutRepository.prototype.get = function(id, callback) {
-// 	console.log("ClickoutRepository.prototype.get " + id)
-// 	this.connection.connect()
-// 	this.connection.query('SELECT * FROM vcg_nlNL.clickout WHERE id=' + id, function(err, rows, fields) {
-// 	 	if (err) throw err
-// 		callback(rows, this.connection)
-// 	});
-// 	this.connection.end()
-// }
+ClickoutRepository.prototype.get = function(id, callback) {
+	console.log("ClickoutRepository.prototype.get " + id)
+	this.openConnection()
+
+	this.connection.query('SELECT * FROM vcg_nlNL.clickout WHERE id=' + id, function(err, rows, fields) {
+	 	if (err) throw err
+	 		
+		callback(rows[0])
+	});
+}
 
 ClickoutRepository.prototype.openConnection = function() {
 	this.connection.connect
@@ -27,7 +28,6 @@ ClickoutRepository.prototype.openConnection = function() {
 
 ClickoutRepository.prototype.getAll = function(callback) {
 	console.log("ClickoutRepository.prototype.getAll")
-
 	this.openConnection()
 
 	this.connection.query('SELECT * FROM vcg_nlNL.clickout', function(err, rows, fields) {

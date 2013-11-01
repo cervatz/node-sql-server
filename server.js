@@ -30,7 +30,8 @@ app.configure('development', function(){
 })
 
 // app.get('/api/clickout/:id', getClickout)
-app.get('/api/clickout/', getAllClickouts)
+app.get('/api/clickouts', getAllClickouts)
+app.get('/api/clickouts/:id', getClickout)
 
 
 var server = http.createServer(app)
@@ -43,24 +44,21 @@ var initRepository = function(config, response) {
   clickoutRepository =  new ClickoutRepositoryModule.ClickoutRepository(config);
 }
 
-// function getClickout (request, response) {
-//   initRepository(response);
-//   var id = request.params.id;
-
-//   var sendResponse = function(results, connection) {
-//     connection.end()
-//     response.json(results)    
-//   }
-
-//   clickoutRepository.getAll(id, sendResponse);
-// }
-
 function buildCallBack(repository, response) {
   var callBack = function(results) {
     repository.closeConnection()
     response.json(results)
   }
   return callBack;
+}
+
+function getClickout (request, response) {
+  initRepository(config, response);
+  var id = request.params.id;
+
+  var callBack = buildCallBack(clickoutRepository, response);
+
+  clickoutRepository.get(id, callBack);
 }
 
 function getAllClickouts (request, response) {
