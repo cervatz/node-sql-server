@@ -15,7 +15,7 @@ ClickoutRepository.prototype.get = function(id, callback) {
 	console.log("ClickoutRepository.prototype.get " + id)
 	this.openConnection()
 
-	this.connection.query('SELECT * FROM vcg_nlNL.clickout WHERE id=' + id, function(err, rows, fields) {
+	this.connection.query('SELECT * FROM cgtools.redirectProductUrl WHERE redirectProductUrlId=' + id, function(err, rows, fields) {
 	 	if (err) throw err
 	 		
 		callback(rows[0])
@@ -30,16 +30,16 @@ ClickoutRepository.prototype.getAll = function(callback) {
 	console.log("ClickoutRepository.prototype.getAll")
 	this.openConnection()
 
-	this.connection.query('SELECT * FROM vcg_nlNL.clickout', function(err, rows, fields) {
+	this.connection.query('SELECT * FROM cgtools.redirectProductUrl', function(err, rows, fields) {
 	 	if (err) throw err
 
 		async.forEach(rows,
 			function(item, done) {
-				console.log("processing single item - transform in DTO")
+				// console.log("processing single item - transform in DTO")
 				done()
 			}, 
 			function(err) {
-		    	console.log("finished processing all items and sending response");
+		    	// console.log("finished processing all items and sending response");
 		    	callback(rows);
 		});
 

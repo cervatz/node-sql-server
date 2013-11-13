@@ -30,8 +30,8 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 })
 
-app.get('/api/clickouts', ClickoutResourceModule.getAllClickouts)
-app.get('/api/clickouts/:id', ClickoutResourceModule.getClickout)
+app.get('/redirects', ClickoutResourceModule.getAllRedirects)
+app.get('/redirects/:id', ClickoutResourceModule.getRedirect)
 
 var server = http.createServer(app)
 
