@@ -3,11 +3,11 @@ var mysql = require('mysql')
 
 module.exports.ClickoutRepository = ClickoutRepository
 
-function ClickoutRepository(config) {
+function ClickoutRepository() {
 	this.connection = mysql.createConnection({
-	  	host     : config.vcgConnection.host,
-	  	user     : config.vcgConnection.username,
-	  	password : config.vcgConnection.password
+	  	host     : GLOBAL.config.vcgConnection.host,
+	  	user     : GLOBAL.config.vcgConnection.username,
+	  	password : GLOBAL.config.vcgConnection.password
 	});
 };
 
