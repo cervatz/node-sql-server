@@ -3,15 +3,16 @@ var express = require('express')
   , path = require('path')
   , reload = require('reload')
   , colors = require('colors')
-  , CommonModule = require('./common/common-module')
-  , commonUtils = new CommonModule.CommonUtils()
-  , ClickoutResourceModule = require('./server/resources/clickout-resource-module')
-  , ClickoutRepositoryModule = require('./server/repositories/clickout-repository-module')
+  , common = require('./common/common')
+  , commonUtils = new common.CommonUtils()
+  , redirect_resource = require('./server/resources/redirect_resource')
 
 GLOBAL.environment = commonUtils.getEnvironment(process.argv[2]);
 GLOBAL.config = require('./config/' + environment + '.properties.json')
 
 console.log("using environment " + GLOBAL.environment);
+
+var redirectResource = redirect_resource.getResource();
 
 var app = express()
 
@@ -30,8 +31,8 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 })
 
-app.get('/redirects', ClickoutResourceModule.getAllRedirects)
-app.get('/redirects/:id', ClickoutResourceModule.getRedirect)
+app.get('/redirects', redirectResource.getAllRedirects)
+app.get('/redirects/:id', redirectResource.getRedirect)
 
 var server = http.createServer(app)
 

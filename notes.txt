@@ -1,4 +1,5 @@
-http://localhost:3000/api/clickout/10
+http://localhost:3000/redirects
+http://localhost:3000/redirects/10
 
 
 node server.js
