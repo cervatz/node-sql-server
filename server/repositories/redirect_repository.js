@@ -1,5 +1,4 @@
 var mysql = require('mysql')
-	,async = require('async')
 
 module.exports.RedirectRepository = RedirectRepository
 
@@ -12,7 +11,7 @@ function RedirectRepository() {
 };
 
 RedirectRepository.prototype.get = function(id, response) {
-	console.log("RedirectRepository.prototype.get " + id + " entering")
+	// console.log("RedirectRepository.prototype.get " + id + " entering")
 	this.openConnection()
 
 	this.connection.query('SELECT * FROM cgtools.redirectProductUrl WHERE redirectProductUrlId=' + id, function(err, rows, fields) {
@@ -20,12 +19,12 @@ RedirectRepository.prototype.get = function(id, response) {
 	 		
 		callback(rows[0])
 	});
-	console.log("RedirectRepository.prototype.get " + id + " leaving")
+	// console.log("RedirectRepository.prototype.get " + id + " leaving")
 }
 
 
 RedirectRepository.prototype.getAll = function(connectionHandler) {
-	console.log("RedirectRepository.prototype.getAll - entering")
+	// console.log("RedirectRepository.prototype.getAll - entering")
 
 	connectionHandler.emit('open', this.connection)
 
@@ -36,6 +35,6 @@ RedirectRepository.prototype.getAll = function(connectionHandler) {
 		}
 	)
 
-	console.log("RedirectRepository.prototype.getAll - leaving")
+	// console.log("RedirectRepository.prototype.getAll - leaving")
 }
 

@@ -1,7 +1,7 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
-  , reload = require('reload')
+  , cluster = require('cluster')
   , colors = require('colors')
   , common = require('./server/common/common')
   , commonUtils = new common.CommonUtils()
@@ -34,12 +34,19 @@ app.configure('development', function(){
 app.get('/redirects', redirectResource.getAllRedirects)
 app.get('/redirects/:id', redirectResource.getRedirect)
 
-var server = http.createServer(app)
 
-reload(server, app)
+if (cluster.isMaster) {
+  var cpuCount = require('os').cpus().length;
+  // Create a worker for each CPU
+  for (var i = 0; i < cpuCount; i += 1) {
+    cluster.fork();
+  }
+} else {
+    var server = http.createServer(app)
 
-server.listen(app.get('port'), function(){
-  console.log("Web server listening in %s on port %d", colors.red(process.env.NODE_ENV), app.get('port'));
-});
+    server.listen(app.get('port'), function(){
+      console.log("Started new worker process listening in %s on port %d", colors.red(process.env.NODE_ENV), app.get('port'));
+    });
 
+}
 

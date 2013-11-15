@@ -25,13 +25,13 @@ function createConnectionHandler(response) {
 	connectionHandler.setResponse(response)
 
 	connectionHandler.on('open', function(connection) {
-		console.log("ConnectionHandler - open")
+		// console.log("ConnectionHandler - open")
 		this.setConnection(connection)
 		this.connection.connect()
 	})
 
 	connectionHandler.on('close', function(jsonPayload) {
-		console.log("ConnectionHandler - close")
+		// console.log("ConnectionHandler - close")
 		response.json(jsonPayload)
 		this.connection.end()
 	})
