@@ -27,17 +27,12 @@ RedirectRepository.prototype.get = function(id, response) {
 RedirectRepository.prototype.getAll = function(connectionHandler) {
 	console.log("RedirectRepository.prototype.getAll - entering")
 
-	var connection = this.connection
-	connection.connect
+	connectionHandler.emit('open', this.connection)
 
-	connectionHandler.setConnection(connection)
-
-	console.log("beginning the query")
-
-	var query = connection.query('SELECT * FROM cgtools.redirectProductUrl', function(err, rows, fields) {
+	var query = connectionHandler.getConnection().query('SELECT * FROM cgtools.redirectProductUrl', function(err, rows, fields) {
 			if (err) throw err
 
-			connectionHandler.emit('end', rows)
+			connectionHandler.emit('close', rows)
 		}
 	)
 
