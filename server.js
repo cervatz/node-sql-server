@@ -3,16 +3,16 @@ var express = require('express')
   , path = require('path')
   , reload = require('reload')
   , colors = require('colors')
-  , common = require('./common/common')
+  , common = require('./server/common/common')
   , commonUtils = new common.CommonUtils()
   , redirect_resource = require('./server/resources/redirect_resource')
 
-GLOBAL.environment = commonUtils.getEnvironment(process.argv[2]);
+GLOBAL.environment = commonUtils.getEnvironment(process.argv[2])
 GLOBAL.config = require('./config/' + environment + '.properties.json')
 
-console.log("using environment " + GLOBAL.environment);
+console.log("using environment " + GLOBAL.environment)
 
-var redirectResource = redirect_resource.getResource();
+var redirectResource = redirect_resource.getResource()
 
 var app = express()
 
