@@ -5,8 +5,11 @@
   "main": "server.js",
   "repository": "",
   "author": "Enrico Cervato",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
-    "express": "~3.4",
+    "express": "3.4.4",
     "colors": "~0.6.0-1",
     "mysql": "2.0.0-alpha9"
   },

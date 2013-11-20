@@ -10,10 +10,12 @@ function getResource() {
 function RedirectResource() {}
 
 RedirectResource.prototype.getRedirect = function(request, response) {
+	var connectionHandler = common.createConnectionHandler(response)
+	
 	var redirectRepository = new redirect_repository.RedirectRepository();
 	var id = request.params.id;
 
-  redirectRepository.get(id, response);
+	redirectRepository.get(id, connectionHandler);
 }
 
 RedirectResource.prototype.getAllRedirects = function(request, response) {

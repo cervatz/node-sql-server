@@ -10,14 +10,15 @@ function RedirectRepository() {
 	});
 };
 
-RedirectRepository.prototype.get = function(id, response) {
+RedirectRepository.prototype.get = function(id, connectionHandler) {
 	// console.log("RedirectRepository.prototype.get " + id + " entering")
-	this.openConnection()
+
+	connectionHandler.emit('open', this.connection)
 
 	this.connection.query('SELECT * FROM cgtools.redirectProductUrl WHERE redirectProductUrlId=' + id, function(err, rows, fields) {
 	 	if (err) throw err
 	 		
-		callback(rows[0])
+		connectionHandler.emit('close', rows[0])
 	});
 	// console.log("RedirectRepository.prototype.get " + id + " leaving")
 }
