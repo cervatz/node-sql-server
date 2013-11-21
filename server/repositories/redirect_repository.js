@@ -1,41 +1,51 @@
-var mysql = require('mysql')
+var Sequelize = require('sequelize')
 
 module.exports.RedirectRepository = RedirectRepository
 
 function RedirectRepository() {
-	this.connection = mysql.createConnection({
-	  	host     : GLOBAL.config.vcgConnection.host,
-	  	user     : GLOBAL.config.vcgConnection.username,
-	  	password : GLOBAL.config.vcgConnection.password
-	});
-};
+	this.sequelize = new Sequelize(GLOBAL.config.vcgConnection.database, GLOBAL.config.vcgConnection.username, GLOBAL.config.vcgConnection.password, {
+		host: GLOBAL.config.vcgConnection.host,
+		port: GLOBAL.config.vcgConnection.port,
+		sync: { force: false }
+	})
 
-RedirectRepository.prototype.get = function(id, connectionHandler) {
-	// console.log("RedirectRepository.prototype.get " + id + " entering")
+	this.RedirectProductUrl = this.sequelize.define('redirectproducturl', {
+		redirectProductUrlId: {type: Sequelize.INTEGER, primaryKey: true},
+		labelId: Sequelize.INTEGER,
+		productId: Sequelize.INTEGER,
+		source: Sequelize.TEXT,
+		destination: Sequelize.TEXT,
+		insertDate: Sequelize.DATE,
+		updateDate: Sequelize.DATE
+	})
+}
 
-	connectionHandler.emit('open', this.connection)
+RedirectRepository.prototype.get = function(id, responseHandler) {
+	console.log("RedirectRepository.prototype.get " + id + " entering")
 
-	this.connection.query('SELECT * FROM cgtools.redirectProductUrl WHERE redirectProductUrlId=' + id, function(err, rows, fields) {
-	 	if (err) throw err
-	 		
-		connectionHandler.emit('close', rows[0])
-	});
-	// console.log("RedirectRepository.prototype.get " + id + " leaving")
+	this.RedirectProductUrl.find(id)
+		.success(function (redirect) {
+			responseHandler.emit('close', redirect)
+		})
+	.error(function(error){
+		console.log("RedirectRepository.prototype.get " + id + " error:" + error)
+	})
+
+	console.log("RedirectRepository.prototype.get " + id + " leaving")
 }
 
 
-RedirectRepository.prototype.getAll = function(connectionHandler) {
-	// console.log("RedirectRepository.prototype.getAll - entering")
+RedirectRepository.prototype.getAll = function(responseHandler) {
+	console.log("RedirectRepository.prototype.getAll - entering")
 
-	connectionHandler.emit('open', this.connection)
+	this.RedirectProductUrl.findAll()
+		.success(function (redirects) {
+			responseHandler.emit('close', redirects)
+		})
+	.error(function(error){
+		console.log("RedirectRepository.prototype.getAll error:" + error)
+	})
 
-	var query = connectionHandler.getConnection().query('SELECT * FROM cgtools.redirectProductUrl', function(err, rows, fields) {
-			if (err) throw err
-
-			connectionHandler.emit('close', rows)
-		}
-	)
-
-	// console.log("RedirectRepository.prototype.getAll - leaving")
+	console.log("RedirectRepository.prototype.getAll - leaving")
 }
 

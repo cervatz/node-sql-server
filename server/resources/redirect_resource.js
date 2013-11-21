@@ -9,18 +9,21 @@ function getResource() {
 
 function RedirectResource() {}
 
-RedirectResource.prototype.getRedirect = function(request, response) {
-	var connectionHandler = common.createConnectionHandler(response)
-	
+RedirectResource.prototype.getRedirect = function(request, response) {	
+	var responseHandler = common.createResponseHandler(response)
+
 	var redirectRepository = new redirect_repository.RedirectRepository();
 	var id = request.params.id;
 
-	redirectRepository.get(id, connectionHandler);
+	redirectRepository.get(id, responseHandler);
 }
 
+RedirectResource.prototype.getRedirect.name=
+
 RedirectResource.prototype.getAllRedirects = function(request, response) {
-	var connectionHandler = common.createConnectionHandler(response)
+	var responseHandler = common.createResponseHandler(response)
+
 	var redirectRepository = new redirect_repository.RedirectRepository();
-	redirectRepository.getAll(connectionHandler);
+	redirectRepository.getAll(responseHandler);
 }
 

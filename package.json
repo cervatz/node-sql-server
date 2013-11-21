@@ -11,7 +11,8 @@
   "dependencies": {
     "express": "3.4.4",
     "colors": "~0.6.0-1",
-    "mysql": "2.0.0-alpha9"
+    "mysql": "2.0.0-alpha9",
+    "sequelize": "2.0.0-beta.1"
   },
   "devDependencies": {
     "testutil": "~0.4.0",
